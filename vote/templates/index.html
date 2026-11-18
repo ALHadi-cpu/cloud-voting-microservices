@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Vote - Cats vs Dogs</title>
+  <style>
+    body { font-family: sans-serif; background: #f0f2f5; display: flex;
+           justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+    .card { background: #fff; padding: 2.5rem; border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08); text-align: center; width: 420px; }
+    h1 { color: #1e293b; margin-top: 0; }
+    p { color: #64748b; }
+    .buttons { display: flex; gap: 1rem; justify-content: center; }
+    button { flex: 1; border: none; padding: 1rem; font-size: 1.1rem;
+             font-weight: 600; border-radius: 12px; cursor: pointer; color: white; }
+    .btn-a { background: #3b82f6; }
+    .btn-b { background: #10b981; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Cats vs Dogs</h1>
+    <p>Cast your vote!</p>
+    <form method="POST">
+      <div class="buttons">
+        <button type="submit" name="vote" value="a" class="btn-a">Cats</button>
+        <button type="submit" name="vote" value="b" class="btn-b">Dogs</button>
+      </div>
+    </form>
+  </div>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Voting Results</title>
+  <style>
+    body { font-family: sans-serif; background: #f0f2f5; display: flex;
+           justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+    .card { background: #fff; padding: 2.5rem; border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08); text-align: center; width: 420px; }
+    h1 { color: #1e293b; }
+    .bar-container { background: #e2e8f0; border-radius: 12px; overflow: hidden;
+                     height: 50px; display: flex; margin: 1.5rem 0; }
+    .bar-a { background: #3b82f6; display: flex; align-items: center;
+             justify-content: center; color: white; font-weight: 700; transition: width 0.5s; }
+    .bar-b { background: #10b981; display: flex; align-items: center;
+             justify-content: center; color: white; font-weight: 700; flex: 1; }
+    .total { color: #64748b; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Live Results</h1>
+    <div class="bar-container">
+      <div class="bar-a" id="barA" style="width:50%">Cats 🐱 50%</div>
+      <div class="bar-b" id="barB">Dogs 🐶 50%</div>
+    </div>
+    <p class="total">Total votes: <strong id="total">0</strong></p>
+  </div>
+  <script>
+    async function refresh() {
+      try {
+        const res = await fetch("/api/results");
+        const data = await res.json();
+        const total = data.a + data.b;
+        const pctA = total === 0 ? 50 : Math.round((data.a / total) * 100);
+        const pctB = 100 - pctA;
+        document.getElementById("barA").style.width = pctA + "%";
+        document.getElementById("barA").textContent = "Cats 🐱 " + pctA + "%";
+        document.getElementById("barB").textContent = "Dogs 🐶 " + pctB + "%";
+        document.getElementById("total").textContent = total;
+      } catch (e) {}
+    }
+    setInterval(refresh, 1000);
+    refresh();
+  </script>
+</body>
+</html>

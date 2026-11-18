@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  vote:
+    build: ./vote
+    ports:
+      - "5000:5000"
+    networks:
+      - voting-net
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:7-alpine
+    networks:
+      - voting-net
+
+  worker:
+    build: ./worker
+    networks:
+      - voting-net
+    depends_on:
+      - redis
+      - db
+
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: 
+      POSTGRES_HOST_AUTH_METHOD: trust
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - voting-net
+
+  result:
+    build: ./result
+    ports:
+      - "3000:3000"
+    networks:
+      - voting-net
+    depends_on:
+      - db
+
+networks:
+  voting-net:
+    driver: bridge
+
+volumes:
+  db-data:
